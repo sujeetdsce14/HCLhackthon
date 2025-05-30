@@ -1,23 +1,32 @@
-# HCLhackthon
-Healthcare Staff Shift Schedular and  Attendance tracker
+# 🏥 HCL Hackathon – Healthcare Staff Shift Scheduler & Attendance Tracker
 
+A modern web application to manage **healthcare staff shifts** and **track attendance**, built with **Next.js** and **MongoDB**. Designed for hospital administrators to easily manage doctors, nurses, and technicians.
 
-🧑‍💼 1. Admin Login
-No registration required – static credentials used.
-POST /api/admin/login
-Authenticate admin.
-json
-CopyEdit
+---
+
+## 🚀 Features
+
+### 👨‍💼 Admin Login
+- **POST** `/api/admin/login`
+- Static credentials for admin authentication (no registration required).
+
+```json
 {
   "username": "admin",
   "password": "yourPassword"
 }
-________________________________________
-👩‍⚕️ 2. Staff Management
-POST /api/staff
-Add a new staff member.
-json
-CopyEdit
+```
+
+---
+
+### 👩‍⚕️ Staff Management
+
+- **POST** `/api/staff` – Add a new staff member
+- **GET** `/api/staff` – List/search staff with filters
+- **PUT** `/api/staff/:id` – Update staff info
+- **DELETE** `/api/staff/:id` – Remove staff
+
+```json
 {
   "name": "Dr. Jane Doe",
   "staffId": "DOC123",
@@ -25,110 +34,149 @@ CopyEdit
   "shiftPreference": "Morning",
   "contact": "+1234567890"
 }
-GET /api/staff
-List all staff members. Supports pagination, sorting, and searching via query params.
-Query params (optional):
-?search=Jane&sortBy=role&order=asc&page=1&limit=10
-PUT /api/staff/:id
-Update staff info.
-json
-CopyEdit
-{
-  "shiftPreference": "Afternoon",
-  "contact": "+1987654321"
-}
-DELETE /api/staff/:id
-Remove a staff member.
-________________________________________
-⏱ 3. Shift Scheduler
-POST /api/shifts
-Create a new shift (Morning, Afternoon, Night).
-json
-CopyEdit
+```
+
+**Query Support:**
+
+```
+/api/staff?search=Jane&sortBy=role&order=asc&page=1&limit=10
+```
+
+---
+
+### ⏰ Shift Scheduler
+
+- **POST** `/api/shifts` – Create shifts (Morning, Afternoon, Night)
+- **POST** `/api/shifts/assign` – Assign staff to shift
+- **GET** `/api/shifts` – View shifts for a day or week
+- **GET** `/api/shifts/status` – Track assigned/unassigned counts
+
+```json
 {
   "date": "2025-06-01",
   "shiftType": "Morning",
   "capacity": 5
 }
-GET /api/shifts
-Get all shifts for a specific day or week.
-Query params:
-?date=2025-06-01 or ?weekStart=2025-06-01&weekEnd=2025-06-07
-POST /api/shifts/assign
-Assign staff to a shift.
-json
-CopyEdit
+```
+
+**Conflict prevention:**
+
+```json
 {
-  "shiftId": "shift123",
-  "staffId": "DOC123"
+  "error": "Shift conflict: Staff is already assigned to Afternoon shift on 2025-06-01"
 }
-GET /api/shifts/status?date=2025-06-01
-Return all shifts for the day with assigned/unassigned counts.
-________________________________________
-📅 4. Daily Schedule View
-GET /api/schedule/daily?date=2025-06-01
-Get full daily view of all staff shift assignments.
-GET /api/schedule/weekly?start=2025-06-01&end=2025-06-07
-Get full weekly view.
-________________________________________
-🟢 5. Mark Attendance
-POST /api/attendance
-Mark attendance manually.
-json
-CopyEdit
+```
+
+---
+
+### 📅 Schedule Views
+
+- **GET** `/api/schedule/daily?date=YYYY-MM-DD` – View daily schedule
+- **GET** `/api/schedule/weekly?start=YYYY-MM-DD&end=YYYY-MM-DD` – Weekly view
+
+---
+
+### 🟢 Attendance Tracking
+
+- **POST** `/api/attendance` – Mark attendance
+
+```json
 {
   "staffId": "DOC123",
   "shiftId": "shift123",
   "status": "Present",
   "remarks": "N/A"
 }
-PUT /api/attendance/:id
-Update attendance after shift (optional window check in backend).
-json
-CopyEdit
-{
-  "status": "Absent",
-  "remarks": "Sick Leave"
-}
-GET /api/attendance?date=2025-06-01
-View attendance for a given day (optional filters: role, staffId, shiftType)
-________________________________________
-🔍 6. Search & Filter
-Use filters as query params in these GET routes:
-•	/api/staff?role=Nurse&shiftPreference=Night
-•	/api/schedule/daily?date=2025-06-01&role=Doctor
-•	/api/attendance?status=Absent&role=Technician
-________________________________________
-⚠️ 7. Shift Conflict Alerts
-✅ Automatically handled in POST /api/shifts/assign
-Backend should check:
-•	If staff is already assigned to another shift on the same day → return conflict response
-Sample response:
-json
-CopyEdit
-{
-  "error": "Shift conflict: Staff is already assigned to Afternoon shift on 2025-06-01"
-}
-________________________________________
-🔐 Optional Middleware
-•	Authentication middleware for admin routes.
-•	Role-based access control (only admin can assign shifts, mark attendance, etc.)
-________________________________________
-✅ Summary Table
-Feature	Method	Endpoint	Description
-Admin Login	POST	/api/admin/login	Login admin
-Add Staff	POST	/api/staff	Create staff
-View All Staff	GET	/api/staff	List/search staff
-Update Staff	PUT	/api/staff/:id	Update staff details
-Delete Staff	DELETE	/api/staff/:id	Remove staff
-Create Shift	POST	/api/shifts	Create a shift
-Assign Staff to Shift	POST	/api/shifts/assign	Assign a staff to a shift
-View Daily Schedule	GET	/api/schedule/daily	Calendar view of one day
-View Weekly Schedule	GET	/api/schedule/weekly	Calendar view of the week
-Mark Attendance	POST	/api/attendance	Mark staff present/absent
-Update Attendance	PUT	/api/attendance/:id	Edit attendance entry
-View Attendance	GET	/api/attendance	Filter attendance
-View Shift Status	GET	/api/shifts/status	Assigned vs. unassigned tracking
-________________________________________
+```
 
+- **PUT** `/api/attendance/:id` – Update attendance (e.g., mark sick leave)
+- **GET** `/api/attendance` – Filter attendance records
 
+---
+
+### 🔍 Advanced Search & Filters
+
+Use filters as query parameters:
+
+- `/api/staff?role=Nurse&shiftPreference=Night`
+- `/api/schedule/daily?date=2025-06-01&role=Doctor`
+- `/api/attendance?status=Absent&role=Technician`
+
+---
+
+### 🔐 Authentication & Middleware
+
+- Admin-only routes for assigning shifts and marking attendance.
+- Token-based or session-based middleware protection.
+
+---
+
+## 📋 Summary of API Endpoints
+
+| Feature               | Method | Endpoint                    | Description                          |
+|----------------------|--------|-----------------------------|--------------------------------------|
+| Admin Login          | POST   | `/api/admin/login`         | Login admin                          |
+| Add Staff            | POST   | `/api/staff`               | Create staff                         |
+| View All Staff       | GET    | `/api/staff`               | List/search staff                    |
+| Update Staff         | PUT    | `/api/staff/:id`           | Update staff details                 |
+| Delete Staff         | DELETE | `/api/staff/:id`           | Remove staff                         |
+| Create Shift         | POST   | `/api/shifts`              | Create a shift                       |
+| Assign to Shift      | POST   | `/api/shifts/assign`       | Assign a staff to a shift            |
+| View Daily Schedule  | GET    | `/api/schedule/daily`      | Calendar view of one day             |
+| View Weekly Schedule | GET    | `/api/schedule/weekly`     | Calendar view of the week            |
+| Mark Attendance      | POST   | `/api/attendance`          | Mark staff present/absent            |
+| Update Attendance    | PUT    | `/api/attendance/:id`      | Edit attendance                      |
+| View Attendance      | GET    | `/api/attendance`          | Filter attendance                    |
+| View Shift Status    | GET    | `/api/shifts/status`       | Assigned vs. unassigned tracking     |
+
+---
+
+## 🛠 Project Setup (Next.js + MongoDB)
+
+### 1. 📦 Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+### 2. 🧱 Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. 🗝 Setup Environment Variables
+
+Create a `.env.local` file in the root with the following:
+
+```env
+MONGODB_URI=mongodb+srv://your_user:your_pass@cluster.mongodb.net/dbname
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=yourPassword
+JWT_SECRET=yourStrongSecret
+```
+
+> ⚠️ Never commit `.env.local` to GitHub.
+
+---
+
+### 4. 🚀 Run the App
+
+```bash
+npm run dev
+```
+
+App will be running at: `http://localhost:3000`
+
+---
+
+## 🧪 Technologies Used
+
+- **Next.js** – Fullstack React Framework (Frontend + API routes)
+- **MongoDB** with **Mongoose** – For document-based data modeling
+- **Tailwind CSS / CSS Modules** – UI styling
+- **JWT or Sessions** – For admin authentication
+- **Day.js / Moment.js** – Date management
+
+---
