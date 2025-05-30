@@ -103,3 +103,8 @@
   level: 'info',
   timestamp: '2025-05-30T09:12:15.982Z'
 }
+{
+  message: 'GET /api/v1/test 401 51 - 2.238 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T09:16:08.007Z'
+}
