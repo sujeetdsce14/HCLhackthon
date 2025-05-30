@@ -14,7 +14,7 @@ import staffRouter from './routes/staff.routes.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js';
 import { morganMiddleware } from './middlewares/loggerMiddleware.js';
 import { auntheticationMiddleware } from './middlewares/auntheticationMiddleware.js';
-import staffRouter from './routes/staff.routes.js';
+import shiftRouter from './routes/shift.routes.js';
 
 const app = express();
 
@@ -44,6 +44,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/staff', staffRouter);
+app.use('/api/v1/shift', shiftRouter);
 app.get('/api/v1/test', auntheticationMiddleware, (req, res) => {
   res.json({"message": "Hello World"});
 });
