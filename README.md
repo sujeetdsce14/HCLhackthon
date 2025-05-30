@@ -170,15 +170,7 @@ If count > 1, it's a conflict.
 * Efficient read performance for shift views
 * Scales horizontally
 
----
 
-Let me know if you want:
-
-* The **MongoDB collection setup scripts**
-* Backend code in **Flask**, **FastAPI**, or **Node.js**
-* MongoDB Atlas setup tutorial
-
-Would you also like a **component diagram** or **data flow diagram** for the MongoDB-based system?
 
 
 
