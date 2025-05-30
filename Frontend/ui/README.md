@@ -1,7 +1,9 @@
 Harshavardhan M
 harshavardhanmurugan@gmail.com
 Contact - 875479764
-
+the ui was pushed into the a different Repo and copied into a single repo
+UI repo
+https://github.com/Harhavardhan15/HCL/tree/main/Frontend/ui
 
 # Getting Started with Create React App
 
