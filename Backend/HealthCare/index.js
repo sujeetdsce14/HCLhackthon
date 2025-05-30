@@ -46,7 +46,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/user', userRouter);
 
-app.use('/api/v1/staff', staffRouter);
 app.use('/api/v1/shift', shiftRouter);
 
 app.use('/api/v1/staff', auntheticationMiddleware, staffRouter);

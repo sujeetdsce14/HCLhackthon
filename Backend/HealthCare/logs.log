@@ -410,3 +410,38 @@
   timestamp: '2025-05-30T11:22:45.634Z'
 >>>>>>> Stashed changes
 }
+{
+  message: 'POST /api/v1/shift/683993e7c8e3b0cb951b041e/assign 404 184 - 3.948 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:40:19.410Z'
+}
+{
+  message: 'GET /api/v1/staff 200 1277 - 49.335 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:46:14.168Z'
+}
+{
+  message: 'GET /api/v1/test 200 25 - 12.765 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:46:22.761Z'
+}
+{
+  message: 'POST /api/v1/shift/683993e7c8e3b0cb951b041e/assign 404 184 - 2.521 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:54:33.098Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 228.150 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:59:27.958Z'
+}
+{
+  message: 'GET /api/v1/staff 200 1277 - 32.871 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:51.373Z'
+}
+{
+  message: 'POST /api/v1/shift/683993e7c8e3b0cb951b041e/assign 404 184 - 0.623 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:03:21.899Z'
+}
