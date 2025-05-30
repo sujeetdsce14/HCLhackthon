@@ -219,3 +219,48 @@
   level: 'info',
   timestamp: '2025-05-30T10:41:38.550Z'
 }
+{
+  message: 'POST /api/v1/staff 201 211 - 66.974 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:03:14.308Z'
+}
+{
+  message: 'GET /api/v1/user/signout 401 51 - 1.849 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:03:43.552Z'
+}
+{
+  message: 'POST /api/v1/staff 401 51 - 4.408 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:10:23.535Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 281.855 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:10:30.014Z'
+}
+{
+  message: 'POST /api/v1/staff 201 213 - 56.685 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:10:34.374Z'
+}
+{
+  message: 'POST /api/v1/staff 201 214 - 38.360 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:11:06.037Z'
+}
+{
+  message: 'POST /api/v1/staff 201 208 - 36.901 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:11:20.823Z'
+}
+{
+  message: 'POST /api/v1/staff 201 213 - 56.098 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:11:43.213Z'
+}
+{
+  message: 'GET /api/v1/staff 200 1065 - 36.676 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T10:12:14.467Z'
+}
