@@ -138,19 +138,22 @@ If count > 1, it's a conflict.
 ---
 
 ### 📋 Updated API Endpoints
+| **Feature**           | **Method** | **Endpoint**           | **Description**                            |
+| --------------------- | ---------- | ---------------------- | ------------------------------------------ |
+| Admin Login           | `POST`     | `/api/admin/login`     | Login as admin                             |
+| Add Staff             | `POST`     | `/api/staff`           | Create new staff member                    |
+| View All Staff        | `GET`      | `/api/staff`           | List or search all staff                   |
+| Update Staff          | `PUT`      | `/api/staff/:id`       | Update staff details                       |
+| Delete Staff          | `DELETE`   | `/api/staff/:id`       | Remove staff member                        |
+| Create Shift          | `POST`     | `/api/shifts`          | Create a new shift                         |
+| Assign Staff to Shift | `POST`     | `/api/shifts/assign`   | Assign staff to a specific shift           |
+| View Daily Schedule   | `GET`      | `/api/schedule/daily`  | Calendar view of one day’s shifts          |
+| View Weekly Schedule  | `GET`      | `/api/schedule/weekly` | Calendar view for the week                 |
+| Mark Attendance       | `POST`     | `/api/attendance`      | Mark attendance (present/absent)           |
+| Update Attendance     | `PUT`      | `/api/attendance/:id`  | Edit existing attendance record            |
+| View Attendance       | `GET`      | `/api/attendance`      | Filter attendance records                  |
+| View Shift Status     | `GET`      | `/api/shifts/status`   | See assigned vs. unassigned staff tracking |
 
-| Endpoint                     | Operation                              |
-| ---------------------------- | -------------------------------------- |
-| `GET /staff`                 | Get all staff                          |
-| `POST /staff`                | Add staff                              |
-| `GET /shifts`                | List all shifts (filter by date/type)  |
-| `POST /shifts`               | Create shift                           |
-| `PUT /shifts/:id/assign`     | Assign staff to shift                  |
-| `PUT /shifts/:id/attendance` | Mark attendance                        |
-| `GET /shifts/conflicts`      | Check conflicts                        |
-| `GET /reports`               | Export data (as CSV via backend logic) |
-
----
 
 ### 📊 Schedule View Optimization
 
