@@ -1,6 +1,4 @@
-To generate a proper **High-Level Design (HLD)** and **Low-Level Design (LLD)** for your Node.js-based Healthcare Shift Scheduling and Management System (from the image structure), here's a comprehensive breakdown:
 
----
 
 ## 🏗️ High-Level Design (HLD)
 
