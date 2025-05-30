@@ -1,418 +1,206 @@
-
-# HCLhackthon
-#Healthcare Staff Shift Schedular and  Attendance tracker
-
-
-
-High-Level Design (HLD) :
-
-### 🔁 Architecture :
-
-* **Frontend**: Next.js
-* **Backend**: Node.js (Next JS)
-* **Database**: MongoDB (Atlas)
+To generate a proper **High-Level Design (HLD)** and **Low-Level Design (LLD)** for your Node.js-based Healthcare Shift Scheduling and Management System (from the image structure), here's a comprehensive breakdown:
 
 ---
 
-## 🧾  MongoDB Document Design
+## 🏗️ High-Level Design (HLD)
 
-### 1. `staff` Collection
+### 🔹 Project Overview
 
-```json
-{
-  "_id": ObjectId(),
-  "name": "Dr. John Doe",
-  "staff_id": "S123",
-  "role": "Doctor",
-  "contact": "1234567890",
-  "shift_preference": "Morning"
-}
+The **Healthcare Shift Scheduling and Attendance Management System** is designed to manage hospital staff schedules, track attendance, prevent shift conflicts, and export reports. The backend is built in **Node.js**, following **MVC architecture**.
+
+---
+
+### 🔹 Architecture Diagram
+
+```
+[Client App] ⇄ [Express.js Backend API] ⇄ [MongoDB]
 ```
 
 ---
 
-### 2. `shifts` Collection
+### 🔹 Core Modules
 
-```json
-{
-  "_id": ObjectId(),
-  "shift_id": "SHIFT001",
-  "date": "2025-06-01",
-  "type": "Morning",  // Morning / Afternoon / Night
-  "capacity": 5,
-  "assignments": [
-    {
-      "staff_id": "S123",
-      "name": "Dr. John Doe",
-      "role": "Doctor"
-    },
-    {
-      "staff_id": "S124",
-      "name": "Nurse A",
-      "role": "Nurse"
-    }
-  ],
-  "attendance": [
-    {
-      "staff_id": "S123",
-      "status": "Present",
-      "remarks": "On time"
-    },
-    {
-      "staff_id": "S124",
-      "status": "Absent",
-      "remarks": "Sick leave"
-    }
-  ]
-}
-```
+1. **Admin Module**
 
-> 🔍 Notes:
->
-> * Staff assignment and attendance are **embedded** into the `shifts` document for fast retrieval.
-> * You can also store attendance in a separate collection if needed for historical logs or reporting scalability.
+   * Login/Authentication
+   * Staff & Shift Management
+   * Conflict Checking
+   * Report Generation
+
+2. **Staff Module**
+
+   * View Assigned Shifts
+   * Check-in/Check-out
+
+3. **Shift Scheduling**
+
+   * Conflict-free Shift Assignment
+   * Time Overlap Detection
+   * Attendance Tracking
 
 ---
 
-### 3. (Optional) `attendance_logs` Collection
+### 🔹 Technology Stack
 
-```json
-{
-  "_id": ObjectId(),
-  "shift_id": "SHIFT001",
-  "staff_id": "S123",
-  "date": "2025-06-01",
-  "status": "Present",
-  "remarks": ""
-}
-```
+| Layer     | Technology                |
+| --------- | ------------------------- |
+| Backend   | Node.js, Express          |
+| Database  | MongoDB (Mongoose)        |
+| Utilities | Nodemailer, CSV Generator |
+| Auth      | Token-based (likely JWT)  |
+| Tools     | Postman, Logger           |
 
 ---
 
-### 🧠 Queries & Logic in MongoDB
+### 🔹 Key Directories
 
-#### 🔍 Assign Staff to Shift
+| Folder         | Responsibility                              |
+| -------------- | ------------------------------------------- |
+| `controllers/` | Handles business logic                      |
+| `models/`      | MongoDB schema definitions                  |
+| `routes/`      | Route-level logic and API definitions       |
+| `utils/`       | Helper functions (email, password, exports) |
+| `middlewares/` | Authentication, error handling (assumed)    |
+| `config/`      | DB and environment setup (assumed)          |
 
-```js
-db.shifts.updateOne(
-  { shift_id: "SHIFT001" },
+---
+
+## 🛠️ Low-Level Design (LLD)
+
+### 1. **User Module**
+
+* **File(s):** `user.controller.js`, `user.model.js`, `user.route.js`
+* **Schema:**
+
+  ```js
   {
-    $addToSet: {
-      assignments: {
-        staff_id: "S125",
-        name: "Nurse B",
-        role: "Nurse"
-      }
-    }
+    name: String,
+    email: String,
+    password: String,
+    role: [‘admin’, ‘staff’]
   }
-)
-```
+  ```
+* **Endpoints:**
 
-#### ✅ Mark Attendance
+  * `POST /user/register`
+  * `POST /user/login`
+  * `GET /user/profile`
 
-```js
-db.shifts.updateOne(
-  { shift_id: "SHIFT001" },
+---
+
+### 2. **Staff Module**
+
+* **File(s):** `staff.controller.js`, `staff.model.js`, `staff.routes.js`
+* **Schema:**
+
+  ```js
   {
-    $addToSet: {
-      attendance: {
-        staff_id: "S125",
-        status: "Present",
-        remarks: ""
-      }
-    }
+    name: String,
+    department: String,
+    email: String,
+    assignedShifts: [ShiftId]
   }
-)
-```
+  ```
+* **Features:**
 
-#### 🚫 Conflict Check Query
-
-```js
-db.shifts.find({
-  "assignments.staff_id": "S125",
-  "date": "2025-06-01"
-})
-```
-
-If count > 1, it's a conflict.
+  * Create/Update/Delete staff
+  * View assigned shifts
+  * Export staff data to CSV
 
 ---
 
-### 📋 Updated API Endpoints
+### 3. **Shift Module**
 
-| Endpoint                     | Operation                              |
-| ---------------------------- | -------------------------------------- |
-| `GET /staff`                 | Get all staff                          |
-| `POST /staff`                | Add staff                              |
-| `GET /shifts`                | List all shifts (filter by date/type)  |
-| `POST /shifts`               | Create shift                           |
-| `PUT /shifts/:id/assign`     | Assign staff to shift                  |
-| `PUT /shifts/:id/attendance` | Mark attendance                        |
-| `GET /shifts/conflicts`      | Check conflicts                        |
-| `GET /reports`               | Export data (as CSV via backend logic) |
+* **File(s):** `shift.controller.js`, `shift.model.js`, `shift.routes.js`
+* **Schema:**
 
----
-
-### 📊 Schedule View Optimization
-
-* Use **MongoDB Aggregation Pipeline** to group shifts by date and type
-* Add computed fields like:
-
-  * `assigned_count`
-  * `remaining_slots`
-  * `conflict_flag`
-
----
-
-## ✅ Benefits of MongoDB Approach
-
-* Flexible schema
-* Easy to embed assignments and attendance
-* Efficient read performance for shift views
-* Scales horizontally
-
-
-
-
-
-Low-Level Design (LLD) :
-
-Here is the **L** of the **Shift Scheduling and Attendance Management System** modified for **MongoDB**. This includes detailed data structures, modules, and their interactions, APIs, and MongoDB operations.
-
----
-
-## 🔧 1. Modules Overview
-
-| Module                    | Responsibility                                           |
-| ------------------------- | -------------------------------------------------------- |
-| **Auth**                  | Admin login and token-based authentication               |
-| **Staff Management**      | Add/update/view staff directory                          |
-| **Shift Management**      | Create shifts, assign staff, validate capacity/conflicts |
-| **Attendance Management** | Mark/view attendance per shift                           |
-| **Schedule Viewer**       | View daily/weekly shift view with filters                |
-| **Conflict Checker**      | Detect overbooking or multiple assignments               |
-| **Reports & Exports**     | Generate CSV reports for attendance/shifts               |
-
----
-
-## 🧾 2. MongoDB Collections (Detailed)
-
-### 📁 `staff`
-
-```json
-{
-  "_id": ObjectId(),
-  "staff_id": "S101",
-  "name": "Dr. Smith",
-  "role": "Doctor",
-  "department": "General Medicine",
-  "shift_preference": "Morning",
-  "contact": "9876543210"
-}
-```
-
----
-
-### 📁 `shifts`
-
-```json
-{
-  "_id": ObjectId(),
-  "shift_id": "SHIFT20250601MORNING",
-  "date": "2025-06-01",
-  "type": "Morning",  // Morning | Afternoon | Night
-  "capacity": 5,
-  "assignments": [
-    {
-      "staff_id": "S101",
-      "name": "Dr. Smith",
-      "role": "Doctor"
-    }
-  ],
-  "attendance": [
-    {
-      "staff_id": "S101",
-      "status": "Present",
-      "remarks": "On time"
-    }
-  ]
-}
-```
-
----
-
-## 🔌 3. REST APIs (with MongoDB Logic)
-
-### 🔐 Admin Login
-
-```
-POST /api/auth/login
-Body: { username, password }
-→ Returns JWT token
-```
-
----
-
-### 👨‍⚕️ Add Staff
-
-```
-POST /api/staff
-Body: { staff_id, name, role, contact, shift_preference }
-→ Inserts into `staff`
-```
-
----
-
-### 📅 Create Shift
-
-```
-POST /api/shifts
-Body: { date, type, capacity }
-→ Creates new document in `shifts`
-```
-
----
-
-### 👥 Assign Staff to Shift
-
-```
-PUT /api/shifts/:shiftId/assign
-Body: { staff_id }
-→ Checks shift capacity
-→ Checks for conflict on same day
-→ Adds to assignments[]
-```
-
-**MongoDB Query Example**:
-
-```js
-db.shifts.updateOne(
-  { shift_id: "SHIFT20250601MORNING" },
+  ```js
   {
-    $addToSet: {
-      assignments: {
-        staff_id: "S102",
-        name: "Nurse Joy",
-        role: "Nurse"
-      }
-    }
+    staffId: ObjectId,
+    date: Date,
+    shiftType: ['Morning', 'Evening', 'Night'],
+    startTime: String,
+    endTime: String
   }
-)
-```
+  ```
+* **Logic:**
+
+  * Assign shift (with conflict check)
+  * Update/Remove shift
+  * Conflict: No overlapping shifts for the same staff
 
 ---
 
-### 📋 Mark Attendance
+### 4. **Utils**
 
-```
-PUT /api/shifts/:shiftId/attendance
-Body: { staff_id, status, remarks }
-→ Adds to attendance[]
-```
-
----
-
-### 📆 Daily Schedule View
-
-```
-GET /api/schedule?date=2025-06-01
-→ Aggregates all shifts for that day
-→ Returns assignment count, available slots
-```
+* `encryptPassword.js` – Handles hashing (bcrypt or crypto)
+* `exportCSV.js` – Exports shift/staff data
+* `sendmail.js` – Uses `nodemailer` to send emails (on schedule/alert)
+* `removeSpecialCharacters.js` – Sanitizes input
+* `generateSixDigitCode.js` – OTP for reset/verification
+* `product_data.js` – (Assumed static dataset for inventory/supply)
 
 ---
 
-### ❌ Conflict Checker
+### 5. **Middleware & Config (Assumed)**
 
-```
-GET /api/shifts/conflicts/:staff_id?date=2025-06-01
-→ Checks if staff is assigned to >1 shift on same day
-```
+* `middlewares/`
 
----
+  * Authentication (JWT/Token)
+  * Error handler
+* `config/`
 
-### 📂 Export Data
-
-```
-GET /api/export/shifts
-GET /api/export/attendance
-→ Uses `json2csv` to download CSV files
-```
+  * MongoDB URI
+  * Environment variables
+  * Mail server setup
 
 ---
 
-## 🧠 4. Business Rules
+### 6. **index.js (Entry Point)**
 
-| Rule                             | Enforcement                               |
-| -------------------------------- | ----------------------------------------- |
-| Max 1 shift per day              | Check before inserting into `assignments` |
-| Capacity should not be exceeded  | Count assignments before adding           |
-| No duplicate staff in a shift    | Use `$addToSet`                           |
-| Attendance only after shift date | Enforced in backend logic                 |
-
----
-
-## 🖼 5. UI Integration Guidelines
-
-* **Calendar Component**: For selecting shift dates
-* **Dropdown Filters**: For staff role, department, status
-* **Color Codes**:
-
-  * Green: Assigned
-  * Red: Conflict
-  * Grey: Unassigned
-* **Modal Forms**: For shift creation, attendance marking
-* **Export Buttons**: To trigger CSV downloads
+* Initialize Express App
+* Setup middlewares
+* Load routes
+* Connect to MongoDB
+* Start server on configured port
 
 ---
 
-## 📊 6. Aggregation Examples
+## 📊 Sample API Flow: Assign Shift
 
-### 🔍 Get Daily Shift Summary
+1. **POST `/shift/assign`**
+2. **Controller checks:**
 
-```js
-db.shifts.aggregate([
-  { $match: { date: "2025-06-01" } },
-  {
-    $project: {
-      shift_id: 1,
-      type: 1,
-      assigned: { $size: "$assignments" },
-      available: { $subtract: ["$capacity", { $size: "$assignments" }] }
-    }
-  }
-])
-```
+   * Staff exists
+   * Date/Time does not conflict
+3. **If valid:** Save shift, return success
+4. **If conflict:** Return error message
 
 ---
 
-### 📌 Conflict Detection
+## 📤 Exports & Logging
 
-```js
-db.shifts.find({
-  "assignments.staff_id": "S101",
-  "date": "2025-06-01"
-})
-```
-
-If result > 1 ⇒ conflict.
+* `exportCSV.js`: Used by Admin to download attendance or shift data
+* `logs.log`: Backend logs for debugging and audit
 
 ---
 
-## 🧰 7. Technology Stack
+## 📬 Alerts
 
-| Layer      | Tech                                  |
-| ---------- | ------------------------------------- |
-| Frontend   | Next.js                      |
-| Backend    | Node.js + Next.js    |
-| DB         | MongoDB Atlas                         |
-| Auth       | JWT                                   |
-| UI Library | Bootstrap               |
-| Export     | json2csv                              |
-| Hosting    |  Vercel   |
+* `sendmail.js` can trigger:
+
+  * Shift assignment notifications
+  * Attendance alerts
+  * Admin reports
 
 ---
 
+## ✅ Possible Enhancements
 
+* Add Role-Based Access Middleware
+* Integrate JWT Authentication
+* Add Unit Tests with Jest/Mocha
+* Use Swagger for API docs (based on `API_docs.txt`)
+* Frontend (under `Frontend/`) can be React/HTML-based client
 
 
