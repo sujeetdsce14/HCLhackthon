@@ -410,3 +410,193 @@
   timestamp: '2025-05-30T11:22:45.634Z'
 >>>>>>> Stashed changes
 }
+{
+  message: 'POST /v1/user/signin 404 154 - 2.661 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:49:18.642Z'
+}
+{
+  message: 'POST /v1/user/signin 404 154 - 1.230 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:49:45.944Z'
+}
+{
+  message: 'POST /v1/user/signin 404 154 - 0.847 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:50:23.672Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 197.296 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:51:41.855Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 134.290 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:52:13.653Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 174.496 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:52:33.292Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 143.793 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:53:21.668Z'
+}
+{
+  message: 'GET /api/v1/user/list 404 155 - 1.163 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:56:02.139Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 3.872 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:56:44.356Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 3.081 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:56:44.364Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 145.675 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:56:54.106Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 1.893 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:05.516Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 3.216 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:05.526Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 1.696 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:43.248Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 4.594 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:43.256Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 137.234 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:51.755Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 5.105 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:54.179Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 5.194 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:57:54.189Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 3.539 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:58:06.432Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 3.793 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:58:06.447Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 517.142 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T11:58:54.638Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 277.933 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:25.002Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 2.424 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:27.364Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 5.149 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:27.377Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 8.105 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:36.144Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 10.150 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:00:36.169Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 146.157 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:02:14.301Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 158.671 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:04:23.233Z'
+}
+{
+  message: 'POST /api/v1/user/signin 401 30 - 141.242 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:04:32.973Z'
+}
+{
+  message: 'POST /api/v1/user/signin 401 30 - 184.800 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:04:57.109Z'
+}
+{
+  message: 'POST /api/v1/user/signin 401 30 - 115.588 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:05:39.809Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 178.837 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:05:46.852Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 137.025 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:07.341Z'
+}
+{
+  message: 'POST /api/v1/user/signin 200 103 - 139.252 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:29.293Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 1.679 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:32.183Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 1.445 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:32.190Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 1.663 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:34.486Z'
+}
+{
+  message: 'GET /api/v1/staff 401 51 - 4.994 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:34.511Z'
+}
