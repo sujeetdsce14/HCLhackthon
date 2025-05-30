@@ -10,9 +10,11 @@ import session from 'express-session';
 
 import connectDB from './config/db.config.js';
 import userRouter from './routes/user.route.js';
+import staffRouter from './routes/staff.routes.js';]
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js';
 import { morganMiddleware } from './middlewares/loggerMiddleware.js';
 import { auntheticationMiddleware } from './middlewares/auntheticationMiddleware.js';
+import staffRouter from './routes/staff.routes.js';
 
 const app = express();
 
