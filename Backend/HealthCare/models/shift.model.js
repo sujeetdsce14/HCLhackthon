@@ -1,22 +1,12 @@
 import mongoose from "mongoose";
 
 const shiftSchema = new mongoose.Schema({
-  shift_id: { type: String, required: true, unique: true },
-  date: { type: String }, // YYYY-MM-DD
+  date: { type: String, required: true }, // YYYY-MM-DD
   type: { type: String, enum: ['Morning', 'Afternoon', 'Night'], required: true },
   capacity: { type: Number, required: true },
   assignments: [
     {
-      staff_id: String,
-      name: String,
-      role: String
-    }
-  ],
-  attendance: [
-    {
-      staff_id: String,
-      status: { type: String, enum: ['Present', 'Absent', 'Late'] },
-      remarks: String
+      staff_id: { type: mongoose.Schema.Types.ObjectId, ref: "Staff" }
     }
   ]
 });
