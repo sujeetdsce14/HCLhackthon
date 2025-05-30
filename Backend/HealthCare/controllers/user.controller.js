@@ -5,7 +5,7 @@ import CustomError from "../errors/customError.js";
 
 export const signup = async (req, res, next) => {
   const { name, email, password, role } = req.body;
-
+  
   try {
     //if password is not provided
     if(!password){
@@ -31,7 +31,7 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
-
+  console.log(req.body)
   try {
     const user = await userModel.findOne({ email });
 

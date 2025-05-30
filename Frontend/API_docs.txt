@@ -1,0 +1,73 @@
+APIs
+
+1. Post - http://localhost:3001/api/v1/user/signup
+
+Body - {
+  "name": "Admin",
+  "email": "admin@healthcare.com",
+  "password": "password",
+  "role": "admin"
+}
+
+{
+  "name": "user",
+  "email": "user@healthcare.com",
+  "password": "password"
+}
+
+result
+
+{
+    "success": true,
+    "message": "User signed up successfully",
+    "user": {
+        "id": "683975b336a07176d6b8fe25",
+        "name": "user",
+        "email": "user@healthcare.com"
+    }
+}
+
+Error:
+
+{
+    "error": "Email already in use"
+}
+
+
+2. post - http://localhost:3001/api/v1/user/signin
+
+body - {
+  "email": "admin@healthcare.com",
+  "password": "password"
+}
+
+result 
+
+{
+    "success": true,
+    "user": {
+        "id": "683972dbe3ebc7b4727309c4",
+        "name": "Admin",
+        "email": "admin@healthcare.com"
+    }
+}
+
+token is saved in cookie
+
+
+
+3. get - http://localhost:3001/api/v1/user/signout
+
+
+result - 
+
+{
+    "success": true,
+    "message": "Signout successfully"
+}
+
+error
+
+{
+    "error": "No token provided, authorization denied"
+}
