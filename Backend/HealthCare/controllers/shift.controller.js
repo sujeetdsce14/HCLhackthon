@@ -20,7 +20,7 @@ export const createShift = async (req, res) => {
 };
 
 export const assignStaffToShift = async (req, res) => {
-  const { shiftId } = req.params;
+  const { shiftId } = req.params.id;
   const { staff_id } = req.body;
 
   try {
