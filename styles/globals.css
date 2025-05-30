@@ -1,0 +1,148 @@
+.app-container {
+    min-height: 350px;
+}
+
+.content-right{
+    display: flex;
+      justify-content: flex-end;
+  }
+.web-logo{
+    color:white;
+    font-weight: bolder;
+    padding-right: 300px;
+}
+.container{
+    margin:10px;
+    padding:0px;
+    display: flex;
+    flex-wrap: inherit;
+    align-items:center;
+    justify-content: center;
+}
+#Faculty h2, #Contact h2{
+    font-family: 'Recursive', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    line-height: 25px;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.slider-faculty h3 {
+    background: #fff;
+    color: #3498db;
+    font-size: 36px;
+    line-height: 100px;
+    margin: 10px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+}
+.slider-non-faculty h3 {
+    background: #fff;
+    color: #3498db;
+    font-size: 36px;
+    line-height: 100px;
+    margin: 10px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+}
+
+        
+.flex-column {
+    max-width: 260px;
+}
+        
+.flex-column img {
+    margin: 5px;
+}
+        
+.scale {
+    transform: scaleY(1.05);
+    padding-top: 5px; 
+}
+.img-thumbnail{
+    width:48% !important;
+}
+
+.coming-soon {
+   
+    display: flex; /* Enable Flexbox layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Vertically center items */
+    align-items: center; /* Horizontally center items */
+    height: 100vh; /* Make the container full height of the viewport */
+  }
+  .contact-us{
+    background-color: gray;
+    padding: 20px;
+  
+  }
+  #__next > div > div > div > div.contact-details{
+    background-color: gray;
+    padding-left: 50px;
+    padding:30px;
+    
+  
+  }
+  .contact{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction:row;
+    align-content:center
+  }
+  .contact-form{
+    background-color: gray;
+    padding: 20px;
+  
+  }
+  .container-body{
+    margin:10px;
+    padding:50px;
+    display: flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: center;
+}
+.container-about{
+    margin:10px;
+    padding:10px 100px;
+    display: flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: center;
+}
+.text-color{
+    color:#fff;
+    text-decoration: none;
+}
+#__next > div > div > a{
+   
+    margin-bottom:20px;
+
+}
+.container-content{
+    margin:10px;
+    padding:10px;
+    display: flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: center;
+}
+.container-heading{
+    margin:10px;
+    padding:10px;
+    display: flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: center;
+    text-transform:uppercase;
+    font-size: xx-large;
+}
+
+.fullwidth{
+    width: 99%;
+}
+
