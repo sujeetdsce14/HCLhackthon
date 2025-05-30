@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/staff', staffRouter);
+app.use('/api/v1/staff', auntheticationMiddleware, staffRouter);
 app.get('/api/v1/test', auntheticationMiddleware, (req, res) => {
   res.json({"message": "Hello World"});
 });

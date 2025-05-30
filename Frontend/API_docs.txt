@@ -71,3 +71,92 @@ error
 {
     "error": "No token provided, authorization denied"
 }
+
+
+
+
+
+Staff
+
+add staff post - http://localhost:3001/api/v1/staff
+
+body - 
+
+{
+  "name": "Dr. Jane Smith",
+  "role": "Doctor",
+  "shiftPreference": "Morning",
+  "contact": "9876543210"
+}
+
+result : 
+
+{
+    "name": "Dr. Jane Smith",
+    "role": "Doctor",
+    "shiftPreference": "Morning",
+    "contact": "9876543210",
+    "_id": "6839826285a618caa60dc59e",
+    "createdAt": "2025-05-30T10:03:14.244Z",
+    "updatedAt": "2025-05-30T10:03:14.244Z",
+    "__v": 0
+}
+
+
+get staff - http://localhost:3001/api/v1/staff
+
+
+result :
+
+[
+    {
+        "_id": "6839826285a618caa60dc59e",
+        "name": "Dr. Jane Smith",
+        "role": "Doctor",
+        "shiftPreference": "Morning",
+        "contact": "9876543210",
+        "createdAt": "2025-05-30T10:03:14.244Z",
+        "updatedAt": "2025-05-30T10:03:14.244Z",
+        "__v": 0
+    },
+    {
+        "_id": "6839841a6e456d58c2d692fa",
+        "name": "Dr. Janny Smith",
+        "role": "Nurse",
+        "shiftPreference": "Afternoon",
+        "contact": "9876543210",
+        "createdAt": "2025-05-30T10:10:34.325Z",
+        "updatedAt": "2025-05-30T10:10:34.325Z",
+        "__v": 0
+    },
+    {
+        "_id": "683984396e456d58c2d692fc",
+        "name": "Dr. James Smith",
+        "role": "Technician",
+        "shiftPreference": "Night",
+        "contact": "9876543210",
+        "createdAt": "2025-05-30T10:11:06.001Z",
+        "updatedAt": "2025-05-30T10:11:06.001Z",
+        "__v": 0
+    },
+    {
+        "_id": "683984486e456d58c2d692fe",
+        "name": "Dr. Boby Smith",
+        "role": "Nurse",
+        "shiftPreference": "Night",
+        "contact": "9876543210",
+        "createdAt": "2025-05-30T10:11:20.789Z",
+        "updatedAt": "2025-05-30T10:11:20.789Z",
+        "__v": 0
+    },
+    {
+        "_id": "6839845f6e456d58c2d69300",
+        "name": "Dr. Alan Smith",
+        "role": "Doctor",
+        "shiftPreference": "Afternoon",
+        "contact": "9876543210",
+        "createdAt": "2025-05-30T10:11:43.157Z",
+        "updatedAt": "2025-05-30T10:11:43.157Z",
+        "__v": 0
+    }
+]
