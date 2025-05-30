@@ -8,6 +8,21 @@ The **Healthcare Shift Scheduling and Attendance Management System** is designed
 
 ---
 
+## Required `.env` Variables
+
+Create a `.env` file in the root of your backend project with the following variables:
+
+```env
+PORT=3001
+APP_NAME="Healthcare Attendance Tracker"
+APP_DOMAIN="http://localhost:3001"
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/?retryWrites=true&w=majority&appName=ProjectCluster
+DB_NAME=HealthCare
+JWT_SECRET=your_jwt_secret
+SESSION_SECRET=your_session_secret
+```
+
+
 ### 🔹 Architecture Diagram
 
 ```
@@ -200,5 +215,140 @@ The **Healthcare Shift Scheduling and Attendance Management System** is designed
 * Add Unit Tests with Jest/Mocha
 * Use Swagger for API docs (based on `API_docs.txt`)
 * Frontend (under `Frontend/`) can be React/HTML-based client
+* 
 
+
+
+# Healthcare Attendance & Shift Management Backend
+
+A Node.js + Express backend for managing healthcare staff, shifts, and attendance.  
+Built with MongoDB, Mongoose, and ES6 modules.
+
+---
+
+## Features
+
+- Staff management (add, list, search/filter)
+- Shift creation (Morning, Afternoon, Night) with configurable capacity
+- Assign staff to shifts (with conflict checks)
+- View daily shift schedules with assigned staff and available slots
+- Check shift assignment conflicts for staff
+
+---
+
+## API Documentation
+
+### Staff APIs
+
+#### Add Staff
+**POST** `/api/v1/staff`
+```json
+{
+  "name": "Dr. Jane Doe",
+  "staffId": "DOC123",
+  "role": "Doctor",
+  "shiftPreference": "Morning",
+  "contact": "+1234567890"
+}
+```
+**Response:**  
+`201 Created`  
+Returns the created staff object.
+
+---
+
+#### List All Staff
+**GET** `/api/v1/staff`
+**Response:**  
+`200 OK`  
+Returns an array of all staff.
+
+---
+
+#### Search/Filter Staff
+**GET** `/api/v1/staff/search?name=Jane&role=Doctor&shift=Morning`
+**Response:**  
+`200 OK`  
+Returns filtered staff list.
+
+---
+
+### Shift APIs
+
+#### Create Shift
+**POST** `/api/v1/shift`
+```json
+{
+  "date": "2025-05-31",
+  "type": "Morning",
+  "capacity": 5
+}
+```
+**Response:**  
+`200 OK`  
+Returns the created shift object.
+
+---
+
+#### Assign Staff to Shift
+**PUT** `/api/v1/shift/:shiftId/assign`
+```json
+{
+  "staff_id": "665f1b2c8e4b2a0012a3c456"
+}
+```
+**Response:**  
+`200 OK`  
+Returns assignment confirmation or error if conflict/capacity.
+
+---
+
+#### Get Daily Schedule
+**GET** `/api/v1/shift/schedule?date=2025-05-31`
+**Response:**  
+`200 OK`  
+Returns all shifts for the date, with assigned staff and available slots.
+
+---
+
+#### Check Shift Conflicts
+**GET** `/api/v1/shift/conflicts/:staff_id?date=2025-05-31`
+**Response:**  
+`200 OK`  
+Returns conflict status and conflicting shifts.
+
+---
+
+## Setup
+
+1. Clone the repo
+2. Install dependencies:  
+   `npm install`
+3. Set up your `.env` file (see `.env.example`)
+4. Start the server:  
+   `npm run dev`
+
+---
+
+## Tech Stack
+
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- ES6 Modules
+
+---
+
+## Roadmap / Future Enhancements
+
+- Staff authentication & role-based access
+- Attendance marking and reporting
+- Shift swap and leave management
+- Notification system (email/SMS)
+- Admin dashboard (with analytics)
+- Export reports (CSV/PDF)
+- API rate limiting & security improvements
+- Dockerization and CI/CD setup
+
+---
 
