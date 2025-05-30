@@ -445,3 +445,23 @@
   level: 'info',
   timestamp: '2025-05-30T12:03:21.899Z'
 }
+{
+  message: 'PUT /api/v1/shift/683993e7c8e3b0cb951b041e/assign 200 37 - 222.585 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:06:27.923Z'
+}
+{
+  message: 'PUT /api/v1/shift/683993e7c8e3b0cb951b041e/assign 200 37 - 139.121 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:07:09.131Z'
+}
+{
+  message: 'GET /api/v1/shift/schedule?date=2025-05-31 200 2 - 30.553 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:09:56.905Z'
+}
+{
+  message: 'GET /api/v1/shift/schedule?date=2025-05-30 200 480 - 109.444 ms\n',
+  level: 'info',
+  timestamp: '2025-05-30T12:10:02.313Z'
+}
