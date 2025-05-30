@@ -1,182 +1,424 @@
-# 🏥 HCL Hackathon – Healthcare Staff Shift Scheduler & Attendance Tracker
+# HCLhackthon
+#Healthcare Staff Shift Schedular and  Attendance tracker
 
-A modern web application to manage **healthcare staff shifts** and **track attendance**, built with **Next.js** and **MongoDB**. Designed for hospital administrators to easily manage doctors, nurses, and technicians.
 
----
 
-## 🚀 Features
+High-Level Design (HLD) :
 
-### 👨‍💼 Admin Login
-- **POST** `/api/admin/login`
-- Static credentials for admin authentication (no registration required).
+### 🔁 Architecture :
 
-```json
-{
-  "username": "admin",
-  "password": "yourPassword"
-}
-```
+* **Frontend**: Next.js
+* **Backend**: Node.js (Next JS)
+* **Database**: MongoDB (Atlas)
 
 ---
 
-### 👩‍⚕️ Staff Management
+## 🧾  MongoDB Document Design
 
-- **POST** `/api/staff` – Add a new staff member
-- **GET** `/api/staff` – List/search staff with filters
-- **PUT** `/api/staff/:id` – Update staff info
-- **DELETE** `/api/staff/:id` – Remove staff
+### 1. `staff` Collection
 
 ```json
 {
-  "name": "Dr. Jane Doe",
-  "staffId": "DOC123",
+  "_id": ObjectId(),
+  "name": "Dr. John Doe",
+  "staff_id": "S123",
   "role": "Doctor",
-  "shiftPreference": "Morning",
-  "contact": "+1234567890"
+  "contact": "1234567890",
+  "shift_preference": "Morning"
 }
-```
-
-**Query Support:**
-
-```
-/api/staff?search=Jane&sortBy=role&order=asc&page=1&limit=10
 ```
 
 ---
 
-### ⏰ Shift Scheduler
-
-- **POST** `/api/shifts` – Create shifts (Morning, Afternoon, Night)
-- **POST** `/api/shifts/assign` – Assign staff to shift
-- **GET** `/api/shifts` – View shifts for a day or week
-- **GET** `/api/shifts/status` – Track assigned/unassigned counts
+### 2. `shifts` Collection
 
 ```json
 {
+  "_id": ObjectId(),
+  "shift_id": "SHIFT001",
   "date": "2025-06-01",
-  "shiftType": "Morning",
-  "capacity": 5
+  "type": "Morning",  // Morning / Afternoon / Night
+  "capacity": 5,
+  "assignments": [
+    {
+      "staff_id": "S123",
+      "name": "Dr. John Doe",
+      "role": "Doctor"
+    },
+    {
+      "staff_id": "S124",
+      "name": "Nurse A",
+      "role": "Nurse"
+    }
+  ],
+  "attendance": [
+    {
+      "staff_id": "S123",
+      "status": "Present",
+      "remarks": "On time"
+    },
+    {
+      "staff_id": "S124",
+      "status": "Absent",
+      "remarks": "Sick leave"
+    }
+  ]
 }
 ```
 
-**Conflict prevention:**
-
-```json
-{
-  "error": "Shift conflict: Staff is already assigned to Afternoon shift on 2025-06-01"
-}
-```
+> 🔍 Notes:
+>
+> * Staff assignment and attendance are **embedded** into the `shifts` document for fast retrieval.
+> * You can also store attendance in a separate collection if needed for historical logs or reporting scalability.
 
 ---
 
-### 📅 Schedule Views
-
-- **GET** `/api/schedule/daily?date=YYYY-MM-DD` – View daily schedule
-- **GET** `/api/schedule/weekly?start=YYYY-MM-DD&end=YYYY-MM-DD` – Weekly view
-
----
-
-### 🟢 Attendance Tracking
-
-- **POST** `/api/attendance` – Mark attendance
+### 3. (Optional) `attendance_logs` Collection
 
 ```json
 {
-  "staffId": "DOC123",
-  "shiftId": "shift123",
+  "_id": ObjectId(),
+  "shift_id": "SHIFT001",
+  "staff_id": "S123",
+  "date": "2025-06-01",
   "status": "Present",
-  "remarks": "N/A"
+  "remarks": ""
 }
 ```
 
-- **PUT** `/api/attendance/:id` – Update attendance (e.g., mark sick leave)
-- **GET** `/api/attendance` – Filter attendance records
-
 ---
 
-### 🔍 Advanced Search & Filters
+### 🧠 Queries & Logic in MongoDB
 
-Use filters as query parameters:
+#### 🔍 Assign Staff to Shift
 
-- `/api/staff?role=Nurse&shiftPreference=Night`
-- `/api/schedule/daily?date=2025-06-01&role=Doctor`
-- `/api/attendance?status=Absent&role=Technician`
-
----
-
-### 🔐 Authentication & Middleware
-
-- Admin-only routes for assigning shifts and marking attendance.
-- Token-based or session-based middleware protection.
-
----
-
-## 📋 Summary of API Endpoints
-
-| Feature               | Method | Endpoint                    | Description                          |
-|----------------------|--------|-----------------------------|--------------------------------------|
-| Admin Login          | POST   | `/api/admin/login`         | Login admin                          |
-| Add Staff            | POST   | `/api/staff`               | Create staff                         |
-| View All Staff       | GET    | `/api/staff`               | List/search staff                    |
-| Update Staff         | PUT    | `/api/staff/:id`           | Update staff details                 |
-| Delete Staff         | DELETE | `/api/staff/:id`           | Remove staff                         |
-| Create Shift         | POST   | `/api/shifts`              | Create a shift                       |
-| Assign to Shift      | POST   | `/api/shifts/assign`       | Assign a staff to a shift            |
-| View Daily Schedule  | GET    | `/api/schedule/daily`      | Calendar view of one day             |
-| View Weekly Schedule | GET    | `/api/schedule/weekly`     | Calendar view of the week            |
-| Mark Attendance      | POST   | `/api/attendance`          | Mark staff present/absent            |
-| Update Attendance    | PUT    | `/api/attendance/:id`      | Edit attendance                      |
-| View Attendance      | GET    | `/api/attendance`          | Filter attendance                    |
-| View Shift Status    | GET    | `/api/shifts/status`       | Assigned vs. unassigned tracking     |
-
----
-
-## 🛠 Project Setup (Next.js + MongoDB)
-
-### 1. 📦 Clone the Repository
-
-```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+```js
+db.shifts.updateOne(
+  { shift_id: "SHIFT001" },
+  {
+    $addToSet: {
+      assignments: {
+        staff_id: "S125",
+        name: "Nurse B",
+        role: "Nurse"
+      }
+    }
+  }
+)
 ```
 
-### 2. 🧱 Install Dependencies
+#### ✅ Mark Attendance
 
-```bash
-npm install
+```js
+db.shifts.updateOne(
+  { shift_id: "SHIFT001" },
+  {
+    $addToSet: {
+      attendance: {
+        staff_id: "S125",
+        status: "Present",
+        remarks: ""
+      }
+    }
+  }
+)
 ```
 
-### 3. 🗝 Setup Environment Variables
+#### 🚫 Conflict Check Query
 
-Create a `.env.local` file in the root with the following:
-
-```env
-MONGODB_URI=mongodb+srv://your_user:your_pass@cluster.mongodb.net/dbname
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=yourPassword
-JWT_SECRET=yourStrongSecret
+```js
+db.shifts.find({
+  "assignments.staff_id": "S125",
+  "date": "2025-06-01"
+})
 ```
 
-> ⚠️ Never commit `.env.local` to GitHub.
+If count > 1, it's a conflict.
 
 ---
 
-### 4. 🚀 Run the App
+### 📋 Updated API Endpoints
 
-```bash
-npm run dev
+| Endpoint                     | Operation                              |
+| ---------------------------- | -------------------------------------- |
+| `GET /staff`                 | Get all staff                          |
+| `POST /staff`                | Add staff                              |
+| `GET /shifts`                | List all shifts (filter by date/type)  |
+| `POST /shifts`               | Create shift                           |
+| `PUT /shifts/:id/assign`     | Assign staff to shift                  |
+| `PUT /shifts/:id/attendance` | Mark attendance                        |
+| `GET /shifts/conflicts`      | Check conflicts                        |
+| `GET /reports`               | Export data (as CSV via backend logic) |
+
+---
+
+### 📊 Schedule View Optimization
+
+* Use **MongoDB Aggregation Pipeline** to group shifts by date and type
+* Add computed fields like:
+
+  * `assigned_count`
+  * `remaining_slots`
+  * `conflict_flag`
+
+---
+
+## ✅ Benefits of MongoDB Approach
+
+* Flexible schema
+* Easy to embed assignments and attendance
+* Efficient read performance for shift views
+* Scales horizontally
+
+---
+
+Let me know if you want:
+
+* The **MongoDB collection setup scripts**
+* Backend code in **Flask**, **FastAPI**, or **Node.js**
+* MongoDB Atlas setup tutorial
+
+Would you also like a **component diagram** or **data flow diagram** for the MongoDB-based system?
+
+
+
+Low-Level Design (LLD) :
+
+Here is the **L** of the **Shift Scheduling and Attendance Management System** modified for **MongoDB**. This includes detailed data structures, modules, and their interactions, APIs, and MongoDB operations.
+
+---
+
+## 🔧 1. Modules Overview
+
+| Module                    | Responsibility                                           |
+| ------------------------- | -------------------------------------------------------- |
+| **Auth**                  | Admin login and token-based authentication               |
+| **Staff Management**      | Add/update/view staff directory                          |
+| **Shift Management**      | Create shifts, assign staff, validate capacity/conflicts |
+| **Attendance Management** | Mark/view attendance per shift                           |
+| **Schedule Viewer**       | View daily/weekly shift view with filters                |
+| **Conflict Checker**      | Detect overbooking or multiple assignments               |
+| **Reports & Exports**     | Generate CSV reports for attendance/shifts               |
+
+---
+
+## 🧾 2. MongoDB Collections (Detailed)
+
+### 📁 `staff`
+
+```json
+{
+  "_id": ObjectId(),
+  "staff_id": "S101",
+  "name": "Dr. Smith",
+  "role": "Doctor",
+  "department": "General Medicine",
+  "shift_preference": "Morning",
+  "contact": "9876543210"
+}
 ```
 
-App will be running at: `http://localhost:3000`
+---
+
+### 📁 `shifts`
+
+```json
+{
+  "_id": ObjectId(),
+  "shift_id": "SHIFT20250601MORNING",
+  "date": "2025-06-01",
+  "type": "Morning",  // Morning | Afternoon | Night
+  "capacity": 5,
+  "assignments": [
+    {
+      "staff_id": "S101",
+      "name": "Dr. Smith",
+      "role": "Doctor"
+    }
+  ],
+  "attendance": [
+    {
+      "staff_id": "S101",
+      "status": "Present",
+      "remarks": "On time"
+    }
+  ]
+}
+```
 
 ---
 
-## 🧪 Technologies Used
+## 🔌 3. REST APIs (with MongoDB Logic)
 
-- **Next.js** – Fullstack React Framework (Frontend + API routes)
-- **MongoDB** with **Mongoose** – For document-based data modeling
-- **Tailwind CSS / CSS Modules** – UI styling
-- **JWT or Sessions** – For admin authentication
-- **Day.js / Moment.js** – Date management
+### 🔐 Admin Login
+
+```
+POST /api/auth/login
+Body: { username, password }
+→ Returns JWT token
+```
 
 ---
+
+### 👨‍⚕️ Add Staff
+
+```
+POST /api/staff
+Body: { staff_id, name, role, contact, shift_preference }
+→ Inserts into `staff`
+```
+
+---
+
+### 📅 Create Shift
+
+```
+POST /api/shifts
+Body: { date, type, capacity }
+→ Creates new document in `shifts`
+```
+
+---
+
+### 👥 Assign Staff to Shift
+
+```
+PUT /api/shifts/:shiftId/assign
+Body: { staff_id }
+→ Checks shift capacity
+→ Checks for conflict on same day
+→ Adds to assignments[]
+```
+
+**MongoDB Query Example**:
+
+```js
+db.shifts.updateOne(
+  { shift_id: "SHIFT20250601MORNING" },
+  {
+    $addToSet: {
+      assignments: {
+        staff_id: "S102",
+        name: "Nurse Joy",
+        role: "Nurse"
+      }
+    }
+  }
+)
+```
+
+---
+
+### 📋 Mark Attendance
+
+```
+PUT /api/shifts/:shiftId/attendance
+Body: { staff_id, status, remarks }
+→ Adds to attendance[]
+```
+
+---
+
+### 📆 Daily Schedule View
+
+```
+GET /api/schedule?date=2025-06-01
+→ Aggregates all shifts for that day
+→ Returns assignment count, available slots
+```
+
+---
+
+### ❌ Conflict Checker
+
+```
+GET /api/shifts/conflicts/:staff_id?date=2025-06-01
+→ Checks if staff is assigned to >1 shift on same day
+```
+
+---
+
+### 📂 Export Data
+
+```
+GET /api/export/shifts
+GET /api/export/attendance
+→ Uses `json2csv` to download CSV files
+```
+
+---
+
+## 🧠 4. Business Rules
+
+| Rule                             | Enforcement                               |
+| -------------------------------- | ----------------------------------------- |
+| Max 1 shift per day              | Check before inserting into `assignments` |
+| Capacity should not be exceeded  | Count assignments before adding           |
+| No duplicate staff in a shift    | Use `$addToSet`                           |
+| Attendance only after shift date | Enforced in backend logic                 |
+
+---
+
+## 🖼 5. UI Integration Guidelines
+
+* **Calendar Component**: For selecting shift dates
+* **Dropdown Filters**: For staff role, department, status
+* **Color Codes**:
+
+  * Green: Assigned
+  * Red: Conflict
+  * Grey: Unassigned
+* **Modal Forms**: For shift creation, attendance marking
+* **Export Buttons**: To trigger CSV downloads
+
+---
+
+## 📊 6. Aggregation Examples
+
+### 🔍 Get Daily Shift Summary
+
+```js
+db.shifts.aggregate([
+  { $match: { date: "2025-06-01" } },
+  {
+    $project: {
+      shift_id: 1,
+      type: 1,
+      assigned: { $size: "$assignments" },
+      available: { $subtract: ["$capacity", { $size: "$assignments" }] }
+    }
+  }
+])
+```
+
+---
+
+### 📌 Conflict Detection
+
+```js
+db.shifts.find({
+  "assignments.staff_id": "S101",
+  "date": "2025-06-01"
+})
+```
+
+If result > 1 ⇒ conflict.
+
+---
+
+## 🧰 7. Technology Stack
+
+| Layer      | Tech                                  |
+| ---------- | ------------------------------------- |
+| Frontend   | Next.js                      |
+| Backend    | Node.js + Next.js    |
+| DB         | MongoDB Atlas                         |
+| Auth       | JWT                                   |
+| UI Library | Bootstrap               |
+| Export     | json2csv                              |
+| Hosting    |  Vercel   |
+
+---
+
+
+
