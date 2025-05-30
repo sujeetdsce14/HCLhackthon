@@ -3,7 +3,7 @@ import { addStaff, getAllStaff } from "../controllers/staff.controller.js";
 
 const staffRouter = Router();
 
-router.post("/staff", addStaff);
-router.get("/staff", getAllStaff);
+router.post("/", addStaff);
+router.get("/", getAllStaff);
 
 export default staffRouter;
