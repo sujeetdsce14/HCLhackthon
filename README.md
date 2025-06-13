@@ -1,9 +1,7 @@
-SUJEET KUMAR  
-8130984653            
+SUJEET KUMAR            
 sujeet.dsce14@gmail.com
 
-Harsha vardhan  
-8754979764          
+Harsha vardhan        
 harshavardhanmurugan@gmail.com
 
 
