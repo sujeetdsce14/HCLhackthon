@@ -1,12 +1,3 @@
-SUJEET KUMAR            
-sujeet.dsce14@gmail.com
-
-Harsha vardhan        
-harshavardhanmurugan@gmail.com
-
-
-Deependra Singh                   
-deependra.shekhawat@outlook.com
 
 
 
